@@ -9,5 +9,7 @@ print("Channel url : " + url)
 response = requests.get(url)
 html = response.content # All source code of the web page
 soup = BeautifulSoup(html, 'html.parser')
+# print(soup.prettify())
 
-print(soup.prettify())
+ul = soup.findAll('ul', attrs={'id': 'channels-browse-content-grid'})
+print(ul)

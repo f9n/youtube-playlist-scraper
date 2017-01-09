@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 
 youtube = "https://www.youtube.com"
 # The New Boston channel
@@ -7,5 +8,6 @@ print("Channel url : " + url)
 
 response = requests.get(url)
 html = response.content # All source code of the web page
+soup = BeautifulSoup(html, 'html.parser')
 
-print(html)
+print(soup.prettify())

@@ -24,6 +24,7 @@ for li in ul.findAll('li', attrs={'class': 'channels-content-item yt-shelf-grid-
         # print(a.prettify())
         # print(a.get('title'))
         playlist_name = a.get('title')
+        playlist_name = playlist_name.replace(" ", "") # Cleaning space
     for a in li.findAll('a', attrs={'class': 'yt-pl-thumb-link'}): # Playlist-link
         # print(a.prettify())
         # print(a.get('href'))

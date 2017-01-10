@@ -16,6 +16,9 @@ ul = soup.find('ul', attrs={'id': 'channels-browse-content-grid'})
 
 for li in ul.findAll('li', attrs={'class': 'channels-content-item yt-shelf-grid-item'}):
     # print(li.prettify())
+    for a in li.findAll('a', attrs={'class': 'yt-uix-tile-link'}):
+        # print(a.prettify())
+        print(a.get('title'))
     for a in li.findAll('a', attrs={'class': 'yt-pl-thumb-link'}):
         # print(a.prettify())
         print(a.get('href'))

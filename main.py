@@ -14,11 +14,20 @@ soup = BeautifulSoup(html, 'html.parser')
 ul = soup.find('ul', attrs={'id': 'channels-browse-content-grid'})
 # print(ul)  <ul id="channels-browse-content-grid"></ul>
 
+
+playlist = {}    # Creating Dictionary
+playlist_name = ""
+playlist_link = ""
 for li in ul.findAll('li', attrs={'class': 'channels-content-item yt-shelf-grid-item'}):
     # print(li.prettify())
-    for a in li.findAll('a', attrs={'class': 'yt-uix-tile-link'}):
+    for a in li.findAll('a', attrs={'class': 'yt-uix-tile-link'}): # Playlist-name
         # print(a.prettify())
-        print(a.get('title'))
-    for a in li.findAll('a', attrs={'class': 'yt-pl-thumb-link'}):
+        # print(a.get('title'))
+        playlist_name = a.get('title')
+    for a in li.findAll('a', attrs={'class': 'yt-pl-thumb-link'}): # Playlist-link
         # print(a.prettify())
-        print(a.get('href'))
+        # print(a.get('href'))
+        playlist_link = a.get('href')
+    playlist[playlist_name] = playlist_link
+
+print(playlist)

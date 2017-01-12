@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import subprocess
+import youtube_dl
 
 youtube = "https://www.youtube.com"
 # The New Boston channel
@@ -37,12 +38,15 @@ for name in playlist:
     print("Name : {} , Link :{} ".format(name, playlist[name]))
 
 for name in playlist:
-    # First creating directory
+    # First creating directory, then dowloading playlist each directory
     link = youtube + playlist[name]
     directory_name = "./"
     directory_name += name
     subprocess.call("mkdir " + directory_name, shell=True)
-
-
-
+    # Downloading Playlist
+    options = {
+        'outtmpl' : directory_name + '/%(title)s-%(id)s.%(ext)s' 
+    }
+    with youtube_dl.YoutubeDL(options) as ydl:
+        ydl.download([link])
 

@@ -50,3 +50,13 @@ for name in playlist:
     with youtube_dl.YoutubeDL(options) as ydl:
         ydl.download([link])
 
+"""# if you want download metadata use that code
+options = {}
+
+with youtube_dl.YoutubeDL(options) as ydl:
+    metadata = ydl.extract_info(link)
+
+print("Uploader : {}\nViews : {}".format(
+    metadata['uploader'], metadata['view_count']))
+
+"""

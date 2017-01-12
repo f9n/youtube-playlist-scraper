@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import subprocess
 
 youtube = "https://www.youtube.com"
 # The New Boston channel
@@ -31,4 +32,17 @@ for li in ul.findAll('li', attrs={'class': 'channels-content-item yt-shelf-grid-
         playlist_link = a.get('href')
     playlist[playlist_name] = playlist_link
 
-print(playlist)
+#print(playlist)
+for name in playlist:
+    print("Name : {} , Link :{} ".format(name, playlist[name]))
+
+for name in playlist:
+    # First creating directory
+    link = youtube + playlist[name]
+    directory_name = "./"
+    directory_name += name
+    subprocess.call("mkdir " + directory_name, shell=True)
+
+
+
+

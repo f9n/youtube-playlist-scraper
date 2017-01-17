@@ -8,3 +8,8 @@ $ youtube-dl -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' https://ww
 
 <p>Download all playlists of YouTube channel/user keeping each playlist in separate directory:</p>
 $ youtube-dl -o '%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' https://www.youtube.com/user/TheLinuxFoundation/playlists
+
+# Installing
+
+
+# Usage

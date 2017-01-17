@@ -10,6 +10,13 @@ $ youtube-dl -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' https://ww
 $ youtube-dl -o '%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' https://www.youtube.com/user/TheLinuxFoundation/playlists
 
 # Installing
-
-
+```
+  $ pip install requests bs4 youtube-dl   #installing moduls
+  $ git clone https://github.com/pleycpl/youtube-playlist-scraper
+```
 # Usage
+```
+  $ cd youtube-playlist-scraper
+  $ vim main.py  #changed url
+  $ python main.py
+```

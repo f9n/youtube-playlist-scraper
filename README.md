@@ -11,12 +11,14 @@ $ youtube-dl -o '%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)
 
 # Installing
 ```
-  $ pip install requests bs4 youtube-dl   #installing moduls
-  $ git clone https://github.com/pleycpl/youtube-playlist-scraper
+  $ git clone https://github.com/pleycpl/youtube-playlist-scraper  # First download repo
+  $ cd youtube-playlist-scraper         # changed active directory to repo
+  $ virtualenv venv                     # create virtual enviroment
+  $ source venv/bin/active              # actived virtual environment
+  $ pip -r install requirements.txt     # download requirement packages.
 ```
 # Usage
 ```
-  $ cd youtube-playlist-scraper
-  $ vim main.py  #changed url
+  $ vim main.py                         # changed url
   $ python main.py
 ```

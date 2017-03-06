@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import subprocess
 import youtube_dl
 import os
+import sys
 
 def getSourceCode(url):
     """ - Getting Source Code on Website
@@ -60,7 +61,7 @@ def creatDirectory(playlist, youtube):
 def main():
     # Downloading all playlists each directory from TheNewBoston channel
     youtube = "https://www.youtube.com"
-    url = "https://www.youtube.com/user/thenewboston/playlists"
+    url = sys.argv[1]
     sourceCode  = getSourceCode(url)
     playlist    = getPlaylistData(sourceCode)
     displayPlaylist(playlist)

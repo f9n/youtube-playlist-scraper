@@ -24,6 +24,5 @@ $ youtube-dl -o '%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)
 ```
 # Usage
 ```
-  $ vim main.py                         # changed url
-  $ python main.py
+  $ python main.py https://www.youtube.com/user/<channelName>/playlists
 ```

@@ -4,6 +4,21 @@ import subprocess
 import youtube_dl
 import os
 import sys
+from selenium import webdriver
+
+def getSourceCodeWithSelenium(url):
+    """
+        Getting Source Code on Website with Selenium, because javascript
+    """
+    print("Channel url: " + url)
+    driver = webdriver.Firefox()
+    driver.get(url)
+    button = driver.find_element_by_css_selector('.yt-uix-load-more')
+    print(button)
+    button.click();
+    sourceCode = driver.page_source
+    print("[+] Getting Source Code is Done, in Selenium")
+    return sourceCode
 
 def getSourceCode(url):
     """ - Getting Source Code on Website
@@ -62,7 +77,7 @@ def main():
     # Downloading all playlists each directory from TheNewBoston channel
     youtube = "https://www.youtube.com"
     url = sys.argv[1]
-    sourceCode  = getSourceCode(url)
+    sourceCode  = getSourceCodeWithSelenium(url)
     playlist    = getPlaylistData(sourceCode)
     displayPlaylist(playlist)
     creatDirectory(playlist, youtube)

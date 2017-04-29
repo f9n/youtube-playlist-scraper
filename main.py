@@ -53,7 +53,7 @@ def displayPlaylist(playlist):
         print("Name : {} , Link :{} ".format(name, playlist[name]))
 
 
-def creatDirectory(playlist, youtube):
+def createDirectoryThenDownload(playlist, youtube):
     """ First creating directory, then dowloading playlist each directory """
     for name in playlist:
         # Creatin directory
@@ -75,12 +75,21 @@ def creatDirectory(playlist, youtube):
 
 def main():
     # Downloading all playlists each directory from TheNewBoston channel
-    youtube = "https://www.youtube.com"
-    url = sys.argv[1]
-    sourceCode  = getSourceCodeWithSelenium(url)
+    youtube     = "https://www.youtube.com"
+    url         = sys.argv[1]
+    option      = sys.argv[2]
+    
+    if option == "selenium":
+        sourceCode  = getSourceCodeWithSelenium(url)
+    elif option == "request":
+        sourceCode  = getSourceCode(url)
+    else:
+        print("[-] Please entry option! ")
+        print("$ python main.py url [selenium | request]")
+        sys.exit(1)
     playlist    = getPlaylistData(sourceCode)
     displayPlaylist(playlist)
-    creatDirectory(playlist, youtube)
+    createDirectoryThenDownload(playlist, youtube)
 
 if __name__ == "__main__":
     main()

@@ -6,6 +6,8 @@ import os
 import sys
 from selenium import webdriver
 
+YoutubeLink     = "https://www.youtube.com"
+
 def getSourceCodeWithSelenium(url):
     """
         Getting Source Code on Website with Selenium, because javascript
@@ -40,7 +42,8 @@ def getPlaylistData(sourceCode):
     playlistLink = ""
     for a in soup.findAll('a', attrs={'class':'yt-uix-tile-link'}):
         playlistName = a.get('title')
-        playlistName = playlistName.replace(" ", "") # Deleting space
+        # In here we clean up name variable, because maybe it has bash expressions like => ()'| > <"
+        playlistName = playlistName.replace(" ", "")  # Deleting space
         playlistName = playlistName.replace("/", "_") # Change path seperator
         playlistLink = a.get('href')
         playlist[playlistName] = playlistLink
@@ -52,13 +55,11 @@ def displayPlaylist(playlist):
     for name in playlist:
         print("Name : {} , Link :{} ".format(name, playlist[name]))
 
-
-def createDirectoryThenDownload(playlist, youtube):
+def createDirectoryThenDownload(playlist):
     """ First creating directory, then dowloading playlist each directory """
     for name in playlist:
-        # Creatin directory
-        directoryName = "./"
-        directoryName += name
+        # Creating directory
+        directoryName = "./{}".format(name)
         try:
             # https://pymotw.com/2/subprocess/
             subprocess.check_call("mkdir " + directoryName, shell=True)
@@ -66,7 +67,7 @@ def createDirectoryThenDownload(playlist, youtube):
             print(e.output)
             continue
         # Downloading Playlist
-        link = youtube + playlist[name]
+        link = YoutubeLink + playlist[name]
         options = {
             'outtmpl' : directoryName + '/%(title)s-%(id)s.%(ext)s'
         }
@@ -75,7 +76,6 @@ def createDirectoryThenDownload(playlist, youtube):
 
 def main():
     # Downloading all playlists each directory from TheNewBoston channel
-    youtube     = "https://www.youtube.com"
     url         = sys.argv[1]
     option      = sys.argv[2]
     
@@ -89,7 +89,7 @@ def main():
         sys.exit(1)
     playlist    = getPlaylistData(sourceCode)
     displayPlaylist(playlist)
-    createDirectoryThenDownload(playlist, youtube)
+    createDirectoryThenDownload(playlist)
 
 if __name__ == "__main__":
     main()
@@ -115,19 +115,6 @@ for li in ul.findAll('li', attrs={'class': 'channels-content-item yt-shelf-grid-
         # print(a.get('href'))
         playlist_link = a.get('href')
     playlist[playlist_name] = playlist_link
-
-for name in playlist:
-    # First creating directory, then dowloading playlist each directory
-    link = youtube + playlist[name]
-    directory_name = "./"
-    directory_name += name
-    subprocess.call("mkdir " + directory_name, shell=True)
-    # Downloading Playlist
-    options = {
-        'outtmpl' : directory_name + '/%(title)s-%(id)s.%(ext)s'
-    }
-    with youtube_dl.YoutubeDL(options) as ydl:
-        ydl.download([link])
 
 # if you want download metadata use that code
 options = {}

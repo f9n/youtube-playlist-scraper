@@ -45,6 +45,12 @@ def getPlaylistData(sourceCode):
         # In here we clean up name variable, because maybe it has bash expressions like => ()'| > <"
         playlistName = playlistName.replace(" ", "")  # Deleting space
         playlistName = playlistName.replace("/", "_") # Change path seperator
+        playlistName = playlistName.replace("|", "_")
+        playlistName = playlistName.replace("(", "_")
+        playlistName = playlistName.replace(")", "_")
+        playlistName = playlistName.replace("*", "_")
+        playlistName = playlistName.replace(">", "_")
+        playlistName = playlistName.replace("<", "_")
         playlistLink = a.get('href')
         playlist[playlistName] = playlistLink
 

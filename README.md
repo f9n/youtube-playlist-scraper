@@ -22,13 +22,14 @@ $ youtube-dl -o '%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)
 ```shell
   $ git clone https://github.com/pleycpl/youtube-playlist-scraper  # First download repo
   $ cd youtube-playlist-scraper         # changed active directory to repo
-  $ virtualenv venv                     # create virtual enviroment
+  $ virtualenv -p python3 venv          # create virtual enviroment
   $ source venv/bin/active              # actived virtual environment
-  $ pip -r install requirements.txt     # download requirement packages.
+  $ pip install -r requirements.txt     # download requirement packages.
 ```
 
 # Usage
 
 ```shell
-  $ python main.py https://www.youtube.com/user/<channelName>/playlists
+  $ python3 main.py https://www.youtube.com/user/<channelName>/playlists requests   # Crawling with request package
+  $ python3 main.py https://www.youtube.com/user/<channelName>/playlists selenium   # Crawling with selenium package, because js.
 ```

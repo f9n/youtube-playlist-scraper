@@ -30,6 +30,6 @@ $ youtube-dl -o '%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)
 # Usage
 
 ```shell
-  $ python3 main.py https://www.youtube.com/user/<channelName>/playlists requests   # Crawling with request package
-  $ python3 main.py https://www.youtube.com/user/<channelName>/playlists selenium   # Crawling with selenium package, because js.
+  $ python3 main.py https://www.youtube.com/user/<channelName>/playlists requests  .            # Crawling with request package, then download all mix in '.'
+  $ python3 main.py https://www.youtube.com/user/<channelName>/playlists selenium  ~/Videos     # Crawling with selenium package, because js. Then download all mix in '~/Videos'
 ```

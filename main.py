@@ -61,21 +61,21 @@ def displayPlaylist(playlist):
     for name in playlist:
         print("Name : {} , Link :{} ".format(name, playlist[name]))
 
-def createDirectoryThenDownload(playlist):
+def createDirectoryThenDownload(playlist, setuppath):
     """ First creating directory, then dowloading playlist each directory """
     for name in playlist:
         # Creating directory
-        directoryName = "./{}".format(name)
+        directory_path = "{0}/{1}".format(setuppath, name)
         try:
             # https://pymotw.com/2/subprocess/
-            subprocess.check_call("mkdir " + directoryName, shell=True)
+            subprocess.check_call("mkdir -p " + directory_path, shell=True)
         except subprocess.CalledProcessError as e:
             print(e.output)
             continue
         # Downloading Playlist
         link = YoutubeLink + playlist[name]
         options = {
-            'outtmpl' : directoryName + '/%(title)s-%(id)s.%(ext)s'
+            'outtmpl' : directory_path + '/%(title)s-%(id)s.%(ext)s'
         }
         with youtube_dl.YoutubeDL(options) as ydl:
             ydl.download([link])
@@ -84,6 +84,7 @@ def main():
     # Downloading all playlists each directory from TheNewBoston channel
     url         = sys.argv[1]
     option      = sys.argv[2]
+    setuppath   = sys.argv[3]
     
     if option == "selenium":
         sourceCode  = getSourceCodeWithSelenium(url)
@@ -95,7 +96,7 @@ def main():
         sys.exit(1)
     playlist    = getPlaylistData(sourceCode)
     displayPlaylist(playlist)
-    createDirectoryThenDownload(playlist)
+    createDirectoryThenDownload(playlist, setuppath)
 
 if __name__ == "__main__":
     main()

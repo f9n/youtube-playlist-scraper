@@ -6,9 +6,9 @@ import os
 import sys
 from selenium import webdriver
 
-YoutubeLink     = "https://www.youtube.com"
+YOUTUBE_LINK = "https://www.youtube.com"
 
-def getSourceCodeWithSelenium(url):
+def get_source_code_with_selenium(url):
     """
         Getting Source Code on Website with Selenium, because javascript
     """
@@ -18,11 +18,11 @@ def getSourceCodeWithSelenium(url):
     button = driver.find_element_by_css_selector('.yt-uix-load-more')
     print(button)
     button.click();
-    sourceCode = driver.page_source
+    source_code = driver.page_source
     print("[+] Getting Source Code is Done, in Selenium")
-    return sourceCode
+    return source_code
 
-def getSourceCode(url):
+def get_source_code(url):
     """ - Getting Source Code on Website
         http://stackoverflow.com/questions/17011357/what-is-the-difference-between-content-and-text#17011420
         r.text is the content of the response in unicode
@@ -33,47 +33,47 @@ def getSourceCode(url):
     print("[+] Getting Source Code is Done")
     return sourceCode
 
-def getPlaylistData(sourceCode):
+def get_playlist_data(source_code):
     """ - Getting Data like Playlist Name and Link """
-    soup = BeautifulSoup(sourceCode, 'html.parser')
+    soup = BeautifulSoup(source_code, 'html.parser')
     #<a class="yt-uix-sessionlink yt-uix-tile-link  spf-link  yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr" title="ECMAScript 6 / ES6 New Features Tutorials" aria-describedby="description-id-514268" data-sessionlink="ei=uHmSWOS8LM6p1gK7-a2oBg&amp;ved=CDgQlx4iEwjk-MvOkPDRAhXOlFUKHbt8C2Uomxw" href="/playlist?list=PL6gx4Cwl9DGBhgcpA8eTYYWg7im72LgLt">ECMAScript 6 / ES6 New Features Tutorials</a>
     playlist = {}
-    playlistName = ""
-    playlistLink = ""
     for a in soup.findAll('a', attrs={'class':'yt-uix-tile-link'}):
-        playlistName = a.get('title')
+        playlist_name = a.get('title')
         # In here we clean up name variable, because maybe it has bash expressions like => ()'| > <"
-        playlistName = playlistName.replace(" ", "")  # Deleting space
-        playlistName = playlistName.replace("/", "_") # Change path seperator
-        playlistName = playlistName.replace("|", "_")
-        playlistName = playlistName.replace("(", "_")
-        playlistName = playlistName.replace(")", "_")
-        playlistName = playlistName.replace("*", "_")
-        playlistName = playlistName.replace(">", "_")
-        playlistName = playlistName.replace("<", "_")
-        playlistLink = a.get('href')
-        playlist[playlistName] = playlistLink
+        playlist_name = playlist_name \
+                        .replace(" ", "") \  # Deleting space
+                        .replace("/", "_") \ # Change path seperator
+                        .replace("|", "_") \
+                        .replace("(", "_") \
+                        .replace(")", "_") \
+                        .replace("*", "_") \
+                        .replace(">", "_") \
+                        .replace("<", "_")
+
+        playlist_link = a.get('href')
+        playlist[playlist_name] = playlist_link
 
     print("[+] Getting Playlist Name and Link is Done")
     return playlist
 
-def displayPlaylist(playlist):
+def display_playlist(playlist):
     for name in playlist:
         print("Name : {} , Link :{} ".format(name, playlist[name]))
 
-def createDirectoryThenDownload(playlist, setuppath):
+def create_directory_then_download(playlist, setuppath):
     """ First creating directory, then dowloading playlist each directory """
     for name in playlist:
         # Creating directory
         directory_path = "{0}/{1}".format(setuppath, name)
         try:
-            # https://pymotw.com/2/subprocess/
             subprocess.check_call("mkdir -p " + directory_path, shell=True)
         except subprocess.CalledProcessError as e:
             print(e.output)
             continue
+  
         # Downloading Playlist
-        link = YoutubeLink + playlist[name]
+        link = YOUTUBE_LINK + playlist[name]
         options = {
             'outtmpl' : directory_path + '/%(title)s-%(id)s.%(ext)s'
         }
@@ -82,21 +82,20 @@ def createDirectoryThenDownload(playlist, setuppath):
 
 def main():
     # Downloading all playlists each directory from TheNewBoston channel
-    url         = sys.argv[1]
-    option      = sys.argv[2]
-    setuppath   = sys.argv[3]
+    url, option, setuppath = sys.argv[1:]
     
     if option == "selenium":
-        sourceCode  = getSourceCodeWithSelenium(url)
+        sourceCode  = get_source_code_with_selenium(url)
     elif option == "request":
-        sourceCode  = getSourceCode(url)
+        sourceCode  = get_source_code(url)
     else:
         print("[-] Please entry option! ")
         print("$ python main.py url [selenium | request]")
         sys.exit(1)
-    playlist    = getPlaylistData(sourceCode)
-    displayPlaylist(playlist)
-    createDirectoryThenDownload(playlist, setuppath)
+
+    playlist = get_playlist_data(sourceCode)
+    display_playlist(playlist)
+    create_directory_then_download(playlist, setuppath)
 
 if __name__ == "__main__":
     main()
